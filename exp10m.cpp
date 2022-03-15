@@ -25,7 +25,7 @@ void define_window() {
 	window[3].x = 70; window[3].y = 30;
 }
 
-bool inside_test(point v1, int i) { 
+bool inside_test(point v1, int i) {
 	if (i == 0 && v1.x > window[0].x) return true;
 	if (i == 1 && v1.y < window[1].y) return true;
 	if (i == 2 && v1.x < window[2].x) return true;
@@ -38,20 +38,20 @@ void add_output(point v1) {
 	printf("out_index: %d, out[1]: %f\n", outlen, output_vertices[0].x);
 }
 
-point intersection(point v1, point v2, int window_edge) { 
+point intersection(point v1, point v2, int window_edge) {
 	point out;
 	if (window_edge == 0 || window_edge == 2) { // vertical
 		out.x = window[window_edge].x;
-		out.y = v2.y - ((v2.y - v1.y) / (v2.x - v1.x))*(v2.x - out.x);
+		out.y = v2.y - ((v2.y - v1.y) / (v2.x - v1.x)) * (v2.x - out.x);
 	}
 	else {										// horizontal
 		out.y = window[window_edge].y;
-		out.x = v2.x - ((v2.x - v1.x) / (v2.y - v1.y))*(v2.y - out.y);
+		out.x = v2.x - ((v2.x - v1.x) / (v2.y - v1.y)) * (v2.y - out.y);
 	}
 	return out;
 }
 
-void sutherland_hodgeman(point *input_vertices) {
+void sutherland_hodgeman(point* input_vertices) {
 	point v1, v2;
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < size; j++) {
@@ -62,10 +62,10 @@ void sutherland_hodgeman(point *input_vertices) {
 				else { add_output(intersection(v1, v2, i)); printf("in-out\n"); }
 			}
 			else {
-				if (inside_test(v2, i)) { 
+				if (inside_test(v2, i)) {
 					add_output(intersection(v1, v2, i));
 					add_output(v2);
-					printf("out-in\n"); 
+					printf("out-in\n");
 				}
 				else { printf("out-out\n"); }
 			}
@@ -87,8 +87,9 @@ void display() {
 	input_vertices[1].x = 20; input_vertices[1].y = 60;
 	input_vertices[2].x = 50; input_vertices[2].y = 60;
 	input_vertices[3].x = 50; input_vertices[3].y = 40;
-
+	glColor3d(0, 1, 0);
 	draw_polynomial(window, 4);
+	glColor3d(1, 0, 0);
 	draw_polynomial(input_vertices, size);
 	sutherland_hodgeman(input_vertices);
 
@@ -100,7 +101,7 @@ void myInit() {
 	glClearColor(0, 0, 0, 0);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_SINGLE);
 	glutCreateWindow("Sutherland Hodgeman");
